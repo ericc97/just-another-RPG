@@ -1,9 +1,8 @@
 
-const Player = require('../lib/Player')
+const Player = require('../lib/Player');
 const Potion = require('../lib/Potion');
 
-jest.mock('../lib/Potion')
-console.log(new Potion());
+jest.mock('../lib/Potion.js');
 
 test('should create a player object', () => {
     const player = new Player('Dave');
@@ -15,6 +14,22 @@ test('should create a player object', () => {
     expect(player.inventory).toEqual(
         expect.arrayContaining([expect.any(Object)])
     );
+});
+
+test('should get the players health value', () => {
+    const player = new Player('Dave');
+
+    expect(player.getHealth()).toEqual(expect.stringContaining(player.health.toString()));
+});
+
+test('should check to see if the player is still alive or not', () => {
+    const player = new Player('Dave');
+
+    expect(player.isAlive()).toBeTruthy();
+
+    player.health = 0;
+
+    expect(player.isAlive()).toBeFalsy();
 });
 
 test("should get player's stats as an object", () => {
@@ -37,21 +52,7 @@ test('should get the inventory from a player or return false', () => {
     expect(player.getInventory()).toEqual(false);
 });
 
-test('should get the players health value', () => {
-    const player = new Player('Dave');
 
-    expect(player.getHealth()).toEqual(expect.stringContaining(player.health.toString()));
-});
-
-test('should check to see if the player is still alive or not', () => {
-    const player = new Player('Dave');
-
-    expect(player.isAlive()).toBeTruthy();
-
-    player.health = 0;
-
-    expect(player.isAlive()).toBeFalsy();
-});
 
 test("should subtract from the player's health", () => {
     const player = new Player('Eric');
